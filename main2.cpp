@@ -1,4 +1,7 @@
 #include "Header2.h"
+#include "stdlib.h"
+
+
 
 void stringas(string& hashString, string& laikinas, char kazkas, int& sk) {
 	char v = bitwiseXor(hashString[sk], kazkas);
@@ -15,11 +18,16 @@ void stringas(string& hashString, string& laikinas, char kazkas, int& sk) {
 
 void pildyti( string& hashString, vector<int>& ascii_values, int& k, vector<int>& count1, int& i) {
 	int asc_sum = 0;
+	if (ascii_values.size() == 0) ascii_values.push_back(ascii(514));
 	for (std::size_t i = 0; i < ascii_values.size(); i++) {
 		asc_sum += ascii_values[i];
 	}
 	while (hashString.size() < 64) {
-		k += count1[i];
+		if (count1.size() == 0) {
+			bitset<8>b12('67');
+			int d = b12.count();
+			count1.push_back(d);}
+		else k += count1[i];
 		int sum = ((k * ascii_values[i] * asc_sum) + 175)/13; 
 		bitset<8> b2(sum);
 		int d = b2.count();
@@ -63,111 +71,195 @@ void maisymas(vector<int> ascii_values, vector<int> count1, string& hashString1,
 		}
 	}
 	full(hashString1, hashString10, bitwiseXor);
-	full(hashString4, hashString1, bitwiseAnd);
-	full(hashString2, hashString4, bitwiseXor);
-	full(hashString4, hashString10, bitwiseAnd);
-	full(hashString3, hashString2, bitwiseOr);
-	full(hashString4, hashString10, bitwiseAnd);
-	full(hashString1, hashString3, bitwiseXor);
+	full(hashString4, hashString10, bitwiseOr);
+	full(hashString3, hashString10, bitwiseAnd);
 	full(hashString2, hashString10, bitwiseOr);
-	full(hashString3, hashString4, bitwiseXor);
+
 }
 
-void hash(string& myString, string& hashString1, string& hashString2, string& hashString3, string& hashString4, vector<int> count1, vector<int> ascii_values) {
-	int k = 0;
-	int i = 0;
-	int sk = 5;
-	int vz = 0;
-	string done;
-	string hash;
-	string laikinas;
-	int lol = 0;
-	if (myString.size() == 0) {
-		int g = (169 * 475 + 462) / 3;
-		myString.push_back(g);
-	}
-	for (std::size_t i = 0; i < myString.size(); ++i) {
-		bitset<8> b1(myString[i]);
-		int d = b1.count(); //suskaiciuoja kiek yra 1
-		count1.push_back(d);
-		ascii_values.push_back(ascii(myString[i]));
-		string kazkas = b1.to_string(); //pavercia i stringa
+void hash(string myString) {
+
+		
+		std::stringstream buffer;
+		std::ifstream open_f("test1.txt");
+		buffer << open_f.rdbuf();
+		open_f.close();
+		string pirmas;
+		string antras;
+		string pirmas1;
+		string antras1;
+		int count = 1;
+		int vienodi = 0;
+		//auto start = std::chrono::high_resolution_clock::now();
+		while (std::getline(buffer, myString)) {
+			
+			string done;
+
+			string hashString1;
+			string hashString2;
+			string hashString3;
+			string hashString4;
+
+			vector<int> ascii_values;
 
 
-		for (int i = 0; kazkas[i] != '\0'; i++)
-		{
-			if (hashString1.size() < 64) {
-				hashString1.push_back(kazkas[i]);
+			vector<int> count1;
+			int k = 0;
+			int i = 0;
+			int sk = 5;
+			int vz = 0;
+
+			string hash;
+			string laikinas;
+			int lol = 0;
+			
+			
+
+			cout << count << endl;
+			//cout << myString << endl;
+			if (myString.size() == 0) {
+				int g = (169 * 475 + 462) / 3;
+				myString.push_back(g);
 			}
-			if (hashString1.size() == 64 && hashString2.size() < 64) {
-				hashString2.push_back(kazkas[i]);
+			for (std::size_t i = 0; i < myString.size(); ++i) {
+				bitset<8> b1(myString[i]);
+				int d = b1.count(); //suskaiciuoja kiek yra 1
+				count1.push_back(d);
+				ascii_values.push_back(ascii(myString[i]));
+				string kazkas = b1.to_string(); //pavercia i stringa
+
+
+				for (int i = 0; kazkas[i] != '\0'; i++)
+				{
+					if (hashString1.size() < 64) {
+						hashString1.push_back(kazkas[i]);
+					}
+					if (hashString1.size() == 64 && hashString2.size() < 64) {
+						hashString2.push_back(kazkas[i]);
+					}
+					if (hashString1.size() == 64 && hashString2.size() == 64 && hashString3.size() < 64) {
+						hashString3.push_back(kazkas[i]);
+					}
+					if (hashString1.size() == 64 && hashString2.size() == 64 && hashString3.size() == 64 && hashString4.size() < 64) {
+						hashString4.push_back(kazkas[i]);
+					}
+					if (hashString1.size() == 64 && hashString2.size() == 64 && hashString3.size() == 64 && hashString4.size() == 64) {
+						if (lol % 2 == 0) stringas(hashString2, laikinas, kazkas[i], vz);
+						else stringas(hashString3, laikinas, kazkas[i], vz);
+						vz++;
+						if (vz == 64) {
+							lol++;
+							vz = 0;
+						}
+					}
+				}
+
+			
+
 			}
-			if (hashString1.size() == 64 && hashString2.size() == 64 && hashString3.size() < 64) {
-				hashString3.push_back(kazkas[i]);
-			}
-			if (hashString1.size() == 64 && hashString2.size() == 64 && hashString3.size() == 64 && hashString4.size() < 64) {
-				hashString4.push_back(kazkas[i]);
-			}
-			if (hashString1.size() == 64 && hashString2.size() == 64 && hashString3.size() == 64 && hashString4.size() == 64) {
-				if (lol % 2 == 0) stringas(hashString2, laikinas, kazkas[i], vz);
-				else stringas(hashString3, laikinas, kazkas[i], vz);
-				vz++;
-				if (vz == 64) {
-					lol++;
-					vz = 0;
+			if (laikinas.size() < 64 && laikinas.size() != 0) {
+				hashString1.clear();
+				for (std::size_t i = 0; i < laikinas.size(); ++i) {
+					hashString1.push_back(laikinas[i]);
 				}
 			}
+
+			if (hashString1.size() < 64) {
+				pildyti(hashString1, ascii_values, k, count1, i);
+			}
+
+			if (hashString2.size() < 64) {
+				pildyti(hashString2, ascii_values, k, count1, i);
+			}
+			if (hashString3.size() < 64) {
+				pildyti(hashString3, ascii_values, k, count1, i);
+			}
+			if (hashString4.size() < 64) {
+				pildyti(hashString4, ascii_values, k, count1, i);
+			}
+			maisymas(ascii_values, count1, hashString1, hashString2, hashString3, hashString4);
+			full(hashString1, hashString3, bitwiseXor);
+			full(hashString2, hashString3, bitwiseAnd);
+			full(hashString3, hashString4, bitwiseXor);
+			full(hashString4, hashString2, bitwiseXor);
+			/*full(hashString1, hashString2, bitwiseAnd);
+			full(hashString2, hashString4, bitwiseOr);
+			full(hashString3, hashString1, bitwiseXor);
+			full(hashString4, hashString2, bitwiseOr);*/
+
+
+			procesas(hashString1, hash, done);
+			procesas(hashString2, hash, done);
+			procesas(hashString3, hash, done);
+			procesas(hashString4, hash, done);
+
+			/*cout << hashString1 << endl;
+			cout << hashString2 << endl;
+			cout << hashString3 << endl;
+			cout << hashString4 << endl;*/
+
+			std::ofstream fr;
+			fr.open("test1rez.txt", std::ios_base::app); // append instead of overwrite
+			fr << "hash       " << done << "\n";
+			done.clear();
+			fr.close();
+			cout << "hash       " << done << "\n";
+			if (pirmas.size() == 0 && antras.size() == 0) {
+				pirmas = done;
+				pirmas1 = myString;
+				done.clear();
+			}
+			if (pirmas.size() != 0 && antras.size() == 0) {
+				antras = done;
+				antras1 = myString;
+				done.clear();
+			}
+			if (pirmas.size() != 0 && antras.size() != 0) {
+				if (pirmas == antras && pirmas1 != antras1) {
+					vienodi++;
+				}
+				pirmas1.clear(); antras1.clear(); pirmas.clear(); antras.clear();
+			}
+			count++;
+
 		}
-
-	}
-
-	if (laikinas.size() < 64 && laikinas.size() != 0) {
-		hashString1.clear();
-		for (std::size_t i = 0; i < laikinas.size(); ++i) {
-			hashString1.push_back(laikinas[i]);
-		}
-	}
-
-	if (hashString1.size() < 64) {
-		pildyti(hashString1, ascii_values, k, count1, i);
-	}
-
-	if (hashString2.size() < 64) {
-		pildyti(hashString2, ascii_values, k, count1, i);
-	}
-	if (hashString3.size() < 64) {
-		pildyti(hashString3, ascii_values, k, count1, i);
-	}
-	if (hashString4.size() < 64) {
-		pildyti(hashString4, ascii_values, k, count1, i);
-	}
-	maisymas(ascii_values,count1, hashString1, hashString2, hashString3, hashString4);
-	full(hashString1, hashString3, bitwiseXor);
-	full(hashString2, hashString3, bitwiseAnd);
-	full(hashString3, hashString4, bitwiseXor);
-	full(hashString4, hashString2, bitwiseOr);
-
-
-	procesas(hashString1, hash, done);
-	procesas(hashString2, hash, done);
-	procesas(hashString3, hash, done);
-	procesas(hashString4, hash, done);
-	cout << "hash       " << done << endl;
-
+		//auto end = std::chrono::high_resolution_clock::now(); // Stabdyti
+		//std::chrono::duration<double> diff = end - start; // Skirtumas (s)
+		//cout << diff.count() << endl;
+		cout << "vienodu: " << vienodi << endl;
 }
 
 int main() {
-
-	string hashString1;
-	string hashString2;
-	string hashString3;
-	string hashString4;
-	//string myString = "";
-	string myString = "apsaugokViespatie";
-	//tring myString = "nepadesCiaJauIrPatsPonasDievas:)";
-	//string myString = "sdfd4bfgsDGkJSDgsDhfghg2jghdsgsd1g5s4h5d1fhd2f7j169za5K4a1h2y1ys5rVj48sy4jtsy1j45xfd4h1z2df1g3f8d4gh3fg5h4";
-	vector<int> ascii_values;
-	vector<int> count1;
-	hash(myString, hashString1, hashString2, hashString3, hashString4, count1, ascii_values);
+	int a;
+	int b;
+	int failas;
+	string myString;
+	//gen_random(10);
+	//gen_random(100);
+	//gen_random(500);
+	//gen_random(1000);
+	cout << "Ivesti ranka ar skaityti is failo?\n 1-Ranka 2-Is failo: ";
+	cin >> a;
+	if (a == 1) {
+		cout << "Iveskite duomenis" << endl;
+		cin >> myString;
+		//std::ofstream fd("abc2rez.txt");
+		//fd << myString;
+		//fd.close();
+		hash(myString);
+	}
+	if (a == 2) {
+		cout << "Generuoti atsitiktini faila? 1-Taip 2-Ne: ";
+		cin >> b;
+		if (b == 1) {
+			cout << "keliu simboliu faila generuoti?: ";
+			cin >> failas;
+			gen_random(failas);
+			hash(myString);
+		}
+		if (b == 2) {
+			hash(myString);
+		}
+	}
 
 }

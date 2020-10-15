@@ -1,5 +1,24 @@
 #include "Header2.h"
 
+void gen_random(const int len) {
+	std::ofstream fd;
+	fd.open("random8.txt", std::ios_base::app);
+	static const char alphanum[] =
+		"0123456789"
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		"abcdefghijklmnopqrstuvwxyz";
+
+	srand((unsigned)time(NULL) * _getpid());
+	//for (int j = 0; j < 25000; j++) {
+		for (int i = 1; i < len + 1; ++i)
+		{
+			fd << alphanum[rand() % (sizeof(alphanum) - 1)];
+		}
+		fd << "\n";
+	//}
+		fd.close();
+	
+}
 
 int ascii(char c) {
 	int d = 0;
