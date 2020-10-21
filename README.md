@@ -45,4 +45,5 @@
  * Tikrinant 100 000 eilučių failą poromis, skaitant, kad pasikartojantys hash yra tik tuo atvėju, kai nesutampa sugeneruotos eilutės, bet sutampa gauti jų hash, tokių atvėjų neaptikta.  
  
  |               |       max     |      avg     |     min      |
+ |---------------|---------------|--------------|--------------|
  |  Skirtingumas |     100%      |      80%     |      30%     |
