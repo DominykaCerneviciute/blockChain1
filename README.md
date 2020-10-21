@@ -17,6 +17,16 @@
   | Lietuva  | f96dad3554766b21020822a8189f3100bdf7dc4325200a77bdf7dc4325200a77 |
   | Lietuva! | 4e7cc0e425fc35010882004a0110a008963dfdb0f0cb5c70963dfdb0f0cb5c70 |
   
+  | Input'as | Output'as                                                                   |
+  |----------|-----------------------------------------------------------------------------|
+  |          v          | 7fe8389d2798e38164411a2a020120099996a0d15d4e9fb49996a0d15d4e9fb4 |
+  |          8          | 1835e7d1febe0a12162800062101e001a0d69b789af01dfca0d69b789af01dfc |
+  |      1010 simb.     | 9a6917e8796b796b0090824611000208ea4d6da1ac6d2565ea4d6da1ac6d2565 |
+  |      1010 simb.     | 4b04fdef146771724c1049450c0492522246a4aa226a2d2d2246a4aa226a2d2d |
+  |    Tuščias failas   | 32bc783fb83e83bd440a20601c8649a49bf45196213886439bf4519621388643 |
+  |1100 simb. skiriasi 1| 4750b53d3022ece90050089900100042692ca164ee6aad84692ca164ee6aad84 |
+  |1100 simb. skiriasi 1| 9675961d104364e80c02144a82040410f029aba54c6ba9c7f029aba54c6ba9c7 |
+  
 #### Testavimo rezultatai:
  * Nepriklausomai nuo input'o dydžio, output'as visada yra 64 simboliai.
  * Tas pats input'as visada duoda tą patį output'ą
