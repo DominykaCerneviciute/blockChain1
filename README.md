@@ -10,6 +10,7 @@
  - Dvejatainė skaičiavimo sistema paverčiama į šešioliktainę skaičiavimo sistemą
  - Gaunamas rezultatas
   
+  #### Testavimo rezultatai:
   
   | Input'as | Output'as                                                        |
   |----------|------------------------------------------------------------------|
@@ -27,7 +28,6 @@
   |1100 simb. skiriasi 1| 4750b53d3022ece90050089900100042692ca164ee6aad84692ca164ee6aad84 |
   |1100 simb. skiriasi 1| 9675961d104364e80c02144a82040410f029aba54c6ba9c7f029aba54c6ba9c7 |
   
-#### Testavimo rezultatai:
 |Inputo'o dydis | Output'o dydis |
 |---------------|----------------|
 |       1       |       64       |
