@@ -44,5 +44,5 @@
  * Hash funkcija, kai input'as yra konstitucija.txt failas, užtrunka 0.33411s
  * Tikrinant 100 000 eilučių failą poromis, skaitant, kad pasikartojantys hash yra tik tuo atvėju, kai nesutampa sugeneruotos eilutės, bet sutampa gauti jų hash, tokių atvėjų neaptikta.  
  
- |  Skirtingumas |       max     |      avg     |     min      |
- |               |     100%      |      80%     |      30%     |
+ |               |       max     |      avg     |     min      |
+ |  Skirtingumas |     100%      |      80%     |      30%     |
