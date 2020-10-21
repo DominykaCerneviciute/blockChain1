@@ -28,7 +28,21 @@
   |1100 simb. skiriasi 1| 9675961d104364e80c02144a82040410f029aba54c6ba9c7f029aba54c6ba9c7 |
   
 #### Testavimo rezultatai:
+|Inputo'o dydis | Output'o dydis |
+|---------------|----------------|
+|       1       |       64       |
+|       10      |       64       |
+|       100     |       64       |
+|       1010    |       64       |
+|       1100    |       64       |
+
+|  Input'o failas  | laikas    |
+|------------------|-----------|
+| konstitucija.txt | 0.33411s  |
  * Nepriklausomai nuo input'o dydžio, output'as visada yra 64 simboliai.
  * Tas pats input'as visada duoda tą patį output'ą
  * Hash funkcija, kai input'as yra konstitucija.txt failas, užtrunka 0.33411s
  * Tikrinant 100 000 eilučių failą poromis, skaitant, kad pasikartojantys hash yra tik tuo atvėju, kai nesutampa sugeneruotos eilutės, bet sutampa gauti jų hash, tokių atvėjų neaptikta.  
+ 
+ |  Skirtingumas |       max     |      avg     |     min      |
+ |               |     100%      |      80%     |      30%     |
