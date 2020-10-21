@@ -12,6 +12,7 @@
   
   
   | Input'as | Output'as                                                        |
+  |----------|------------------------------------------------------------------|
   | lietuva  | 6de17db43572c1c64850001920a05c00918ab9c2df0fa1ff918ab9c2df0fa1ff |
   | Lietuva  | f96dad3554766b21020822a8189f3100bdf7dc4325200a77bdf7dc4325200a77 |
   | Lietuva! | 4e7cc0e425fc35010882004a0110a008963dfdb0f0cb5c70963dfdb0f0cb5c70 |
