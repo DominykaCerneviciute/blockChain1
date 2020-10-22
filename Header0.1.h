@@ -22,9 +22,10 @@ using std::cin;
 void gen_random(const int len, string c);
 int ascii(char c);
 char hex(string sh);
-string binary(char v);
 char bitwiseOr(char p, char k);
 char bitwiseXor(char p, char k);
 char bitwiseAnd(char p, char k);
 void procesas(string& kzn, string hash, string& done);
 void full(string& hashString1, string& hashString2, char (*fun)(char, char));
+void test(string& pirmas, string& antras, string& done, string& myString, int& tokiepat, int& maziausiai, int& daugiausiai, int& vienodi);
+

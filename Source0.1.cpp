@@ -61,25 +61,6 @@ char hex(string sh) {
 	else return 0;
 }
 
-string binary(char v) {
-	if (v == '0') return "0000";
-	if (v == '1') return "0001";
-	if (v == '2') return "0010";
-	if (v == '3') return "0011";
-	if (v == '4') return "0100";
-	if (v == '5') return "0101";
-	if (v == '6') return "0110";
-	if (v == '7') return "0111";
-	if (v == '8') return "1000";
-	if (v == '9') return "1001";
-	if (v == 'a') return "1010";
-	if (v == 'b') return "1011";
-	if (v == 'c') return "1100";
-	if (v == 'd') return "1101";
-	if (v == 'e') return "1110";
-	if (v == 'f') return "1111";
-	else return "0";
-}
 
 char bitwiseOr(char p, char k) {
 	if (p == '0' && k == '0') return '0';
@@ -130,3 +111,46 @@ void full(string& hashString1, string& hashString2, char (*fun)(char,char)) {
 		hashString1.push_back(hashString5[i]);
 	}
 }
+
+void test(string& pirmas, string& antras, string& done, string& myString, int& tokiepat, int& maziausiai, int& daugiausiai, int& vienodi) {
+	int vienodasStringas = 0;
+	int skaiciavimai = 0;
+	string pirmas1;
+	string antras1;
+	if (pirmas.size() == 0 && antras.size() == 0) {
+		pirmas = done;
+		pirmas1 = myString;
+		done.clear();
+	}
+
+	if (pirmas.size() != 0 && antras.size() == 0 && done.size() != 0) {
+		antras = done;
+		antras1 = myString;
+		done.clear();
+	}
+
+	if (pirmas.size() != 0 && antras.size() != 0) {
+		///if (pirmas == antras && pirmas1 != antras1) {
+			//vienodasStringas++;
+		//}
+		if (pirmas == antras && pirmas1 == antras1) {
+			tokiepat++;
+			vienodasStringas++;
+		}
+		if (vienodasStringas == 0) {
+			for (std::size_t i = 0; i < pirmas.size(); ++i) {
+				if (pirmas[i] == antras[i]) {
+					vienodi++;
+					skaiciavimai++;
+				}
+			}
+			if (skaiciavimai < maziausiai) maziausiai = skaiciavimai;
+			if (skaiciavimai > daugiausiai) daugiausiai = skaiciavimai;
+		}
+
+		pirmas1.clear(); antras1.clear(); pirmas.clear(); antras.clear(); 
+		skaiciavimai = 0;
+	}
+	vienodasStringas = 0;
+}
+
