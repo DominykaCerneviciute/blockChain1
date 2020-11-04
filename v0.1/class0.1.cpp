@@ -49,3 +49,32 @@ void generate_trans(vector<transaction>& tr_vec, vector<users>& us_vec) {
 		tr_vec.push_back(tr);
 	}
 }
+
+void generate_block(vector<transaction>& tr_vec) {
+	std::uniform_int_distribution<int> dist(0, 9999);
+	int rand = 0;
+	vector<int> a;
+	string markel;
+	transaction tmp;
+	std::vector<int>::iterator it;
+	a.reserve(100);
+	rand = dist(mt);
+	a.push_back(rand);
+	block blo(pbh, ver, non, dt,  ts);
+	blo.push_back(tr_vec[rand]);
+	for (int i = 0; i < 99; i++) {
+		do {
+			rand = dist(mt);
+			it = std::find(a.begin(), a.end(), rand);
+		} while (it == a.end());
+		a.push_back(rand);
+		blo.push_back(tr_vec[rand]);
+	}
+	for (int k = 0; k < 100; k++) {
+		tmp = blo.get_transaction(k);
+		markel += tmp.get_id();
+	 }
+	
+	markel = hash(markel);
+	blo.setMarkelHash(markel);
+}

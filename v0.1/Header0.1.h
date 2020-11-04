@@ -46,6 +46,7 @@ private:
 	string user2;
 	double sum;
 public:
+	transaction() {};
 	transaction(string id_, string us1, string us2, double s) { id = id_; user1 = us1; user2 = us2; sum = s; }
 	string get_id() { return id; }
 	string get_user1() { return user1; }
@@ -53,6 +54,27 @@ public:
 	double get_sum() { return sum; }
 };
 
+
+class block {
+private: 
+	string prevBlockHash;
+	string markelRootHash;
+	string version;
+	int nonce;
+	string difTarget;
+	string timeStamp;
+	vector<transaction> transactions;
+
+public:
+	block(string pbh, string ver, int non, string dt, string ts) { prevBlockHash = pbh; version = ver; nonce = non;
+	difTarget = dt; timeStamp = ts; transactions.reserve(100); }
+	void setMarkelHash(string hash) { markelRootHash = hash; }
+	string getPrevHash() { return prevBlockHash; }
+	void push_back(transaction V) { transactions.push_back(V); }
+	transaction get_transaction(int i) { return transactions[i]; }
+
+
+};
 
 void gen_random(const int len, string c);
 int ascii(char c);
@@ -69,4 +91,5 @@ void maisymas(vector<int> ascii_values, vector<int> count1, string& hashString1,
 string hash(string myString);
 void generate_users(vector<users>& us_vec);
 void generate_trans(vector<transaction>& tr_vec, vector<users>& us_vec);
+void generate_block(vector<transaction>& tr_vec);
 
