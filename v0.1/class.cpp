@@ -62,8 +62,6 @@ void extrans(vector<users>& us_vec, block& blo) {
 		
 		string h = blo.get_transaction(i).get_user1();
 		string v = blo.get_transaction(i).get_user2();
-		cout << h << endl;
-		cout << v << endl;
 
 		for (int j = 0; j < us_vec.size(); j++) {
 			if (us_vec[j].get_pk() == h) v1 = j;
@@ -76,14 +74,14 @@ void extrans(vector<users>& us_vec, block& blo) {
 
 			if (v1 >= 0 && v2 >= 0) {
 		
-				//cout << us_vec[v1].get_name() << " " << us_vec[v1].get_b() << endl;
+				cout << us_vec[v1].get_name() << " " << us_vec[v1].get_b() << endl;
 				if ((us_vec[v1].get_b() - blo.get_transaction(i).get_sum()) >= 0) {
 					us_vec[v1].set_b(us_vec[v1].get_b() - blo.get_transaction(i).get_sum());
-					//cout << us_vec[v1].get_name() << " " << us_vec[v1].get_b() << endl;
+				cout << us_vec[v1].get_name() << " " << us_vec[v1].get_b() << endl;
 
-					//cout << us_vec[v2].get_name() << " " << us_vec[v2].get_b() << endl;
+				cout << us_vec[v2].get_name() << " " << us_vec[v2].get_b() << endl;
 					us_vec[v2].set_b(us_vec[v2].get_b() + blo.get_transaction(i).get_sum());
-					//cout << us_vec[v2].get_name() << " " << us_vec[v2].get_b() << endl;
+				cout << us_vec[v2].get_name() << " " << us_vec[v2].get_b() << endl;
 
 				}
 				else
@@ -165,13 +163,13 @@ void generate_block(vector<transaction>& tr_vec, string prevh, vector<users>& us
 	string v = "34912576420";
 	int n = 0;
 	n = dist(mt);
-	bool q = false;
 	block blo(prevh, v, n, dif_targ , to_string(t));
 	blo.push_back(tr_vec[rand]);
 	// Idedamos transakcijos
 	for (int i = 0; i < 9; i++) {
-		int r = 0;
+		bool q = false;
 			while (q == false) {
+				int r = 0;
 				rand = dist(mt);
 				for (int b = 0; b < a.size(); b++) {
 					if (rand == a[b]) r++;
@@ -183,6 +181,7 @@ void generate_block(vector<transaction>& tr_vec, string prevh, vector<users>& us
 		a.push_back(rand);
 		blo.push_back(tr_vec[rand]);
 	}
+
 	for (int k = 0; k < 10; k++) {
 		tmp = blo.get_transaction(k);
 		markel += tmp.get_id();
