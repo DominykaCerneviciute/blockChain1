@@ -4,7 +4,11 @@ using hrClock = std::chrono::high_resolution_clock;
 std::mt19937 mt(static_cast<long unsigned int>(hrClock::now().time_since_epoch().count()));
 
 
+
+
 string dif_targ = "00zsa65sf000000000000000000000000000000000000000000000000000000";
+vector<block> blockChain;
+
 void generate_users(vector<users>& us_vec){
 	string n;
 	string pk;
@@ -12,7 +16,7 @@ void generate_users(vector<users>& us_vec){
 	
 
 		std::uniform_int_distribution<int> dist(1, 1000000);
-	for (int i = 1; i <= 10; i++) {
+	for (int i = 1; i <= 1000; i++) {
 		n = "vardas" + to_string(i);
 		b = dist(mt);
 		pk = to_string(b) + n;
@@ -20,10 +24,14 @@ void generate_users(vector<users>& us_vec){
 		users User(n, pk, (double)b);
 		us_vec.push_back(User);
 	}
+
+	for (int o = 0; o < us_vec.size(); o++) {
+		cout << us_vec[o].get_name() << " " << us_vec[o].get_pk() << " " << us_vec[o].get_b() << endl;
+	}
 }
 
 void generate_trans(vector<transaction>& tr_vec, vector<users>& us_vec) {
-		std::uniform_int_distribution<int> dist(0, 9);
+		std::uniform_int_distribution<int> dist(0, 999);
 
 		int rand1 = 0;
 		int rand2 = 0;
@@ -31,7 +39,7 @@ void generate_trans(vector<transaction>& tr_vec, vector<users>& us_vec) {
 		string us1;
 		string us2;
 		string trans_id;
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < 200; i++) {
 		do {
 			rand1 = dist(mt);
 			rand2 = dist(mt);
@@ -47,19 +55,22 @@ void generate_trans(vector<transaction>& tr_vec, vector<users>& us_vec) {
 		trans_id = hash(trans_id);
 		transaction tr(trans_id, us1, us2, s);
 		
-		///cout << i << " " << tr.get_id() << "\n" << tr.get_user1() << "\n" << tr.get_user2() << "\n" << tr.get_sum() << endl;
 		tr_vec.push_back(tr);
+	}
+
+	for (int t = 0; t < tr_vec.size(); t++) {
+		cout << tr_vec[t].get_user1() << " " << tr_vec[t].get_user2() << " " << tr_vec[t].get_sum() << endl;
 	}
 }
 
 
-void extrans(vector<users>& us_vec, block& blo) {
+
+void extrans(vector<users>& us_vec, block& blo, string prevHash, vector<transaction>& tr_vec) {
 	users U;
 	vector<int> del;
-	int v1 = -1;
-	int v2 = -1;
 	for (int i = 0; i < blo.getsize(); i++) {
-		
+		int v1 = -1;
+		int v2 = -1;
 		string h = blo.get_transaction(i).get_user1();
 		string v = blo.get_transaction(i).get_user2();
 
@@ -77,15 +88,19 @@ void extrans(vector<users>& us_vec, block& blo) {
 				cout << us_vec[v1].get_name() << " " << us_vec[v1].get_b() << endl;
 				if ((us_vec[v1].get_b() - blo.get_transaction(i).get_sum()) >= 0) {
 					us_vec[v1].set_b(us_vec[v1].get_b() - blo.get_transaction(i).get_sum());
-				cout << us_vec[v1].get_name() << " " << us_vec[v1].get_b() << endl;
+					cout << us_vec[v1].get_name() << " " << us_vec[v1].get_b() << endl;
 
-				cout << us_vec[v2].get_name() << " " << us_vec[v2].get_b() << endl;
+					cout << us_vec[v2].get_name() << " " << us_vec[v2].get_b() << endl;
 					us_vec[v2].set_b(us_vec[v2].get_b() + blo.get_transaction(i).get_sum());
-				cout << us_vec[v2].get_name() << " " << us_vec[v2].get_b() << endl;
+					cout << us_vec[v2].get_name() << " " << us_vec[v2].get_b() << endl;
 
 				}
 				else
-					del.push_back(i);
+				{
+					blo.removeTrans(i);
+					i = i--;
+					//del.push_back(i);
+				}
 			}
 	
 
@@ -94,12 +109,9 @@ void extrans(vector<users>& us_vec, block& blo) {
 
 	}
 
-	if (del.size() > 0) {
-		for (int z = 0; z < del.size(); z++) {
-			blo.removeTrans(del[z]);
-		}
-	}
-
+	blockChain.push_back(blo);
+	generate_block(tr_vec, prevHash, us_vec);
+	//cout << blockChain[0].g
 }
 
 
@@ -140,8 +152,7 @@ void findBlock(block blo, vector<transaction>& tr_vec, vector<users>& us_vec) {
 			
 		}
 	}
-
-	extrans(us_vec, blo);
+	extrans(us_vec, blo,prevBlockHash, tr_vec);
 
 
 }
@@ -150,43 +161,51 @@ void findBlock(block blo, vector<transaction>& tr_vec, vector<users>& us_vec) {
 
 
 void generate_block(vector<transaction>& tr_vec, string prevh, vector<users>& us_vec) {
-	std::uniform_int_distribution<int> dist(0, 19);
-	int rand = 0;
-	string markel;
-	transaction tmp;
-	std::vector<int>::iterator it;
-	vector<int> a;
-	a.reserve(100);
-	rand = dist(mt);
-	a.push_back(rand);
-	std::time_t t = std::time(0);
-	string v = "34912576420";
-	int n = 0;
-	n = dist(mt);
-	block blo(prevh, v, n, dif_targ , to_string(t));
-	blo.push_back(tr_vec[rand]);
-	// Idedamos transakcijos
-	for (int i = 0; i < 9; i++) {
-		bool q = false;
-			while (q == false) {
-				int r = 0;
-				rand = dist(mt);
-				for (int b = 0; b < a.size(); b++) {
-					if (rand == a[b]) r++;
 
-				}
-				if (r == 0) q = true;
-			}
-	
+	if(tr_vec.size() >= 90){
+		std::uniform_int_distribution<int> dist(0, tr_vec.size()-1);
+		int rand = 0;
+		string markel;
+		transaction tmp;
+		std::vector<int>::iterator it;
+		vector<int> a;
+		a.reserve(100);
+		rand = dist(mt);
 		a.push_back(rand);
+		std::time_t t = std::time(0);
+		string v = "34912576420";
+		int n = 0;
+		n = dist(mt);
+		block blo(prevh, v, n, dif_targ , to_string(t));
 		blo.push_back(tr_vec[rand]);
+		// Idedamos transakcijos
+		for (int i = 0; i < 99; i++) {
+			bool q = false;
+				while (q == false) {
+					int r = 0;
+					rand = dist(mt);
+					for (int b = 0; b < a.size(); b++) {
+						if (rand == a[b]) r++;
+
+					}
+					if (r == 0) q = true;
+				}
+	
+			a.push_back(rand);
+			blo.push_back(tr_vec[rand]);
+		}
+
+		for (int y = 0; y < blo.getsize(); y++) {
+			cout << blo.get_transaction(y).get_sum() << endl;
+		}
+
+		for (int k = 0; k < 10; k++) {
+			tmp = blo.get_transaction(k);
+			markel += tmp.get_id();
+		 }
+		// Papildyty*
+		blo.setMarkelHash(hash(markel));
+		findBlock(blo, tr_vec, us_vec);
 	}
 
-	for (int k = 0; k < 10; k++) {
-		tmp = blo.get_transaction(k);
-		markel += tmp.get_id();
-	 }
-	// Papildyty*
-	blo.setMarkelHash(markel);	
-	findBlock(blo, tr_vec, us_vec);
 }

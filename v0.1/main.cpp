@@ -54,5 +54,5 @@ int main() {
 	generate_users(us_vec);
 	generate_trans(tr_vec, us_vec);
 	generate_block(tr_vec, firstHash,us_vec);
-
+	
 }

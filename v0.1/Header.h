@@ -24,6 +24,9 @@ using std::cin;
 using std::to_string;
 
 
+
+
+
 class users {
 private:
 	string name;
@@ -82,9 +85,6 @@ public:
 	void removeTrans(int i) { transactions.erase(transactions.begin() + i); }
 	void increaseNonce() { nonce = nonce + 1; }
 	void push_back(transaction V) { transactions.push_back(V); }
-	
-
-
 };
 
 void gen_random(const int len, string c);
@@ -102,7 +102,7 @@ void maisymas(vector<int> ascii_values, vector<int> count1, string& hashString1,
 string hash(string myString);
 void generate_users(vector<users>& us_vec);
 void generate_trans(vector<transaction>& tr_vec, vector<users>& us_vec);
-void extrans(vector<users>& us_vec, block& blo);
+void extrans(vector<users>& us_vec, block& blo, string prevHash, vector<transaction>& tr_vec);
 void findBlock(block blo, vector<transaction>& tr_vec, vector<users>& us_vec);
 void generate_block(vector<transaction>& tr_vec, string prevh, vector<users>& us_vec);
 
