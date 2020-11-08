@@ -158,6 +158,45 @@ void findBlock(block blo, vector<transaction>& tr_vec, vector<users>& us_vec) {
 }
 
 
+string markleTree(block blo) {
+	vector<string> hashes;
+	vector<string> tmpr;
+	string hashOfTwo;
+	string hashOne;
+	string hashTwo;
+	for (int i = 0; i < blo.getsize(); i++) {
+		hashes.push_back(blo.get_transaction(i).get_id());
+	}
+
+	while (hashes.size() != 1) {
+		for(int j = 0; j<hashes.size(); j++){
+		
+			if (j % 2 != 0) {
+				hashOne = hashes[j];
+			}
+			if (j % 2 == 0) {
+				hashTwo = hashes[j];
+			}
+
+			if (hashOne.size() != 0 && hashTwo.size() != 0) {
+				hashOfTwo = hashOne + hashTwo;
+				hashOfTwo = hash(hashOfTwo);
+				tmpr.push_back(hashOfTwo);
+				hashOne.clear();
+				hashTwo.clear();
+			}
+		}
+		hashes = tmpr;
+		while (tmpr.size() != 0) {
+			tmpr.erase(tmpr.begin());
+		}
+	}
+	if (hashes.size() == 1) {
+		return hashes[0];
+	}
+	else return 0;
+}
+
 
 
 void generate_block(vector<transaction>& tr_vec, string prevh, vector<users>& us_vec) {
@@ -199,12 +238,9 @@ void generate_block(vector<transaction>& tr_vec, string prevh, vector<users>& us
 			cout << blo.get_transaction(y).get_sum() << endl;
 		}
 
-		for (int k = 0; k < 10; k++) {
-			tmp = blo.get_transaction(k);
-			markel += tmp.get_id();
-		 }
+		
 		// Papildyty*
-		blo.setMarkelHash(hash(markel));
+		blo.setMarkelHash(markleTree(blo));
 		findBlock(blo, tr_vec, us_vec);
 	}
 
