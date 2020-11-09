@@ -105,5 +105,6 @@ void generate_trans(vector<transaction>& tr_vec, vector<users>& us_vec);
 void extrans(vector<users>& us_vec, block& blo, string prevHash, vector<transaction>& tr_vec);
 void findBlock(block blo, vector<transaction>& tr_vec, vector<users>& us_vec);
 string markleTree(block blo);
+bool checkTransaction(vector<transaction>& tr_vec, int rand, vector<users>& us_vec);
 void generate_block(vector<transaction>& tr_vec, string prevh, vector<users>& us_vec);
 

@@ -194,9 +194,32 @@ string markleTree(block blo) {
 	if (hashes.size() == 1) {
 		return hashes[0];
 	}
-	else return 0;
+	else return "0";
 }
 
+bool checkTransaction(vector<transaction>& tr_vec, int rand, vector<users>& us_vec) {
+	string user1 = tr_vec[rand].get_user1;
+	string user2 = tr_vec[rand].get_user2;
+	string checkHash;
+	int whichUser = 0;
+	for (int i = 0; i < us_vec.size(); i++) {
+		if (user1 == us_vec[i].get_pk()) {
+			whichUser = i;
+		}
+	}
+
+	checkHash = tr_vec[rand].get_user1() + to_string(tr_vec[rand].get_sum()) + tr_vec[rand].get_user2();
+	checkHash = hash(checkHash);
+
+	if (tr_vec[rand].get_sum() < us_vec[whichUser].get_b() && checkHash == tr_vec[rand].get_id()) {
+		return true;
+	}
+	else
+	{
+		tr_vec.erase(tr_vec.begin() + rand);
+		return false;
+	}
+}
 
 
 void generate_block(vector<transaction>& tr_vec, string prevh, vector<users>& us_vec) {
@@ -206,19 +229,26 @@ void generate_block(vector<transaction>& tr_vec, string prevh, vector<users>& us
 		int rand = 0;
 		string markel;
 		transaction tmp;
-		std::vector<int>::iterator it;
+		bool validation = false;
 		vector<int> a;
 		a.reserve(100);
-		rand = dist(mt);
-		a.push_back(rand);
 		std::time_t t = std::time(0);
 		string v = "34912576420";
 		int n = 0;
 		n = dist(mt);
 		block blo(prevh, v, n, dif_targ , to_string(t));
-		blo.push_back(tr_vec[rand]);
+		
+		do {
+			rand = dist(mt);
+			validation = checkTransaction(tr_vec, rand, us_vec);
+			if (validation == true) {
+				blo.push_back(tr_vec[rand]);
+				a.push_back(rand);
+			}
+		} while (validation == false);
 		// Idedamos transakcijos
 		for (int i = 0; i < 99; i++) {
+			validation = false;
 			bool q = false;
 				while (q == false) {
 					int r = 0;
@@ -229,15 +259,17 @@ void generate_block(vector<transaction>& tr_vec, string prevh, vector<users>& us
 					}
 					if (r == 0) q = true;
 				}
-	
-			a.push_back(rand);
-			blo.push_back(tr_vec[rand]);
+			validation = checkTransaction(tr_vec, rand, us_vec);
+			if (validation == true) {
+				a.push_back(rand);
+				blo.push_back(tr_vec[rand]);
+			}
 		}
 
-		for (int y = 0; y < blo.getsize(); y++) {
+	/*	for (int y = 0; y < blo.getsize(); y++) {
 			cout << blo.get_transaction(y).get_sum() << endl;
 		}
-
+		*/
 		
 		// Papildyty*
 		blo.setMarkelHash(markleTree(blo));
