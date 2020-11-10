@@ -48,13 +48,16 @@ private:
 	string user1;
 	string user2;
 	double sum;
+	bool valid;
 public:
 	transaction() {};
-	transaction(string id_, string us1, string us2, double s) { id = id_; user1 = us1; user2 = us2; sum = s; }
+	transaction(string id_, string us1, string us2, double s) { id = id_; user1 = us1; user2 = us2; sum = s; valid = true;}
 	string get_id() { return id; }
 	string get_user1() { return user1; }
 	string get_user2() { return user2; }
 	double get_sum() { return sum; }
+	void set_valid(bool a) { valid = a; }
+	bool get_valid() { return valid; }
 };
 
 
@@ -69,6 +72,7 @@ private:
 	vector<transaction> transactions;
 
 public:
+	block() {};
 	block(string pbh, string ver, int non, string dt, string ts) { prevBlockHash = pbh; version = ver; nonce = non;
 	difTarget = dt; timeStamp = ts; transactions.reserve(100); }
 	void setMarkelHash(string hash) { markelRootHash = hash; }
@@ -103,7 +107,9 @@ string hash(string myString);
 void generate_users(vector<users>& us_vec);
 void generate_trans(vector<transaction>& tr_vec, vector<users>& us_vec);
 void extrans(vector<users>& us_vec, block& blo, string prevHash, vector<transaction>& tr_vec);
-void findBlock(block blo, vector<transaction>& tr_vec, vector<users>& us_vec);
+bool mining(string& blockHash, vector<block>& vecOfBlocks, int firstNonce, int rand);
+void findBlock(vector<block>& vecOfBlocks, vector<transaction>& tr_vec, vector<users>& us_vec);
+///void findBlock(block blo, vector<transaction>& tr_vec, vector<users>& us_vec);
 string markleTree(block blo);
 bool checkTransaction(vector<transaction>& tr_vec, int rand, vector<users>& us_vec);
 void generate_block(vector<transaction>& tr_vec, string prevh, vector<users>& us_vec);
