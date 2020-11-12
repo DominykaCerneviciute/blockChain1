@@ -52,4 +52,8 @@
  |Hex'ų lygmenyje|     100%      |      80%     |      30%     |
  |Bitų lygmenyje |      53%      |      34%     |      11%     |
 
-
+### Supaprastintas blokų grandinės kūrimas
+## Programos paleidimas
+- g++ -c main.cpp Source.cpp hash.cpp class.coo
+- g++ -o test main.o Source.o hash.o class.o
+- test
