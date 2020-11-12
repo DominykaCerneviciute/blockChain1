@@ -1,4 +1,4 @@
-### v0.1 versija
+### v0.2 versija
 
 
 ### Hash veikimo principas:
@@ -52,4 +52,73 @@
  |Hex'ų lygmenyje|     100%      |      80%     |      30%     |
  |Bitų lygmenyje |      53%      |      34%     |      11%     |
 
+## Supaprastintas blokų grandinės kūrimas
+### paleidimas
+- g++ -c main.cpp Source.cpp hash.cpp class.coo
+- g++ -o test main.o Source.o hash.o class.o
+- test
 
+### klasės
+Šioje versijoje sukurtos 3 klasės: 
+
+1. users
+  - name (vartotojo vardas)
+  - public_key (viešasis raktas)
+  - balance (turima pinigų suma)
+ #### Galimi veiksmai su klase:
+  	 pasiimti public_key reikšmę
+  	 pasiimti turimą pinigų sumą
+  	 pasiimti naudotojo vardą
+ 	  nustatyti balansą
+2. transaction
+  - id
+  - user1 (siuntėjas)
+  - user2 (gavėjas)
+  - sum (siunčiama pinigų suma)
+  - valid (ar transakcija validi)
+ #### Galimi veiksmai su klase:
+  	 pasiimti transakcijos id
+	   pasiimti siuntėjo public_key
+	   pasiimti gavėjo public_key
+   	pasiimti siunčiamą sumą
+	   nustatyti validumo reikšmę
+  	 pasiimti validumo reikšmę
+3. block
+- prevBlockHash (pireš tai buvusio bloko hash)
+- markelRootHash (transakcijų hash)
+- version (versija)
+- nonce (random skaičius)
+- difTarget (sudėtingumas)
+- timeStamp (laiko žymą)
+- transactions (transakcijos)
+#### Galimi veiksmai su klase:
+	   nustatyti markelRootHash
+	   nustatyti versiją
+	   nustatyti nonce reikšmę
+	   pasiimti prevBlockHash
+ 	  pasiimti markelRootHash 
+	   pasiimti versiją
+	   pasiimti nonce reikšmę
+	   pasiimti difTarget
+	   pasiimti timeStamp
+ 	  pasiimti kažkurią transakciją
+	   pasiimti transakcijų skaičių
+	   pašalinti transakciją
+  	 padidinti nonce vienetu
+	   įdėti transakciją
+  
+  ### Įgyvendinimai v0.1 versijoje:
+  1. Sukurtos 3 klasės
+  2. Sukurtas transakcijų pool'as
+  3. Transakcijų dėjimas į blokus
+  4. Blokų kasimas
+  5. Transakcijų šalinimas iš pool'o
+  6. Transakcijų įvykdymas
+  7. Bloko pridėjimas į grandinę
+  8. Ciklas grandinei kurti
+  9. Transakcijų hash 
+  
+  ### Patobulinimai v0.2 versijoje:
+      Transakcijų hash gavimas padarytas pagal Markle Tree 
+      Atliktas transakcijų verifikavimas tikrinant balansą ir transakcijos id
+      Patobulintas kasimo procesas naudojant penkis blokus-kandidatus
