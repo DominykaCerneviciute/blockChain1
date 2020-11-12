@@ -65,24 +65,24 @@
   - name (vartotojo vardas)
   - public_key (viešasis raktas)
   - balance (turima pinigų suma)
- # Galimi veiksmai su klase:
-  	- pasiimti public_key reikšmę
-  	- pasiimti turimą pinigų sumą
-  	- pasiimti naudotojo vardą
- 	 - nustatyti balansą
+ #### Galimi veiksmai su klase:
+  	 pasiimti public_key reikšmę
+  	 pasiimti turimą pinigų sumą
+  	 pasiimti naudotojo vardą
+ 	 nustatyti balansą
 2. transaction
   - id
   - user1 (siuntėjas)
   - user2 (gavėjas)
   - sum (siunčiama pinigų suma)
   - valid (ar transakcija validi)
- # Galimi veiksmai su klase:
-  	- pasiimti transakcijos id
-	- pasiimti siuntėjo public_key
-	- pasiimti gavėjo public_key
-   	- pasiimti siunčiamą sumą
-	- nustatyti validumo reikšmę
-  	- pasiimti validumo reikšmę
+ #### Galimi veiksmai su klase:
+  	 pasiimti transakcijos id
+	 pasiimti siuntėjo public_key
+	 pasiimti gavėjo public_key
+   	 pasiimti siunčiamą sumą
+	 nustatyti validumo reikšmę
+  	 pasiimti validumo reikšmę
 3. block
 - prevBlockHash (pireš tai buvusio bloko hash)
 - markelRootHash (transakcijų hash)
@@ -91,21 +91,21 @@
 - difTarget (sudėtingumas)
 - timeStamp (laiko žymą)
 - transactions (transakcijos)
-# Galimi veiksmai su klase:
-	 - nustatyti markelRootHash
-	 - nustatyti versiją
-	 - nustatyti nonce reikšmę
-	 - pasiimti prevBlockHash
- 	 - pasiimti markelRootHash 
-	 - pasiimti versiją
-	 - pasiimti nonce reikšmę
-	 - pasiimti difTarget
-	 - pasiimti timeStamp
- 	 - pasiimti kažkurią transakciją
-	 - pasiimti transakcijų skaičių
-	 - pašalinti transakciją
-  	 - padidinti nonce vienetu
-	 - įdėti transakciją
+#### Galimi veiksmai su klase:
+	  nustatyti markelRootHash
+	  nustatyti versiją
+	  nustatyti nonce reikšmę
+	  pasiimti prevBlockHash
+ 	  pasiimti markelRootHash 
+	  pasiimti versiją
+	  pasiimti nonce reikšmę
+	  pasiimti difTarget
+	  pasiimti timeStamp
+ 	  pasiimti kažkurią transakciją
+	  pasiimti transakcijų skaičių
+	  pašalinti transakciją
+  	  padidinti nonce vienetu
+	  įdėti transakciją
   
   ### Įgyvendinimai versijoje
   1. Sukurtos 3 klasės
