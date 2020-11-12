@@ -16,7 +16,7 @@ void generate_users(vector<users>& us_vec){
 	
 
 		std::uniform_int_distribution<int> dist(1, 1000000);
-	for (int i = 1; i <= 1000; i++) {
+		for (int i = 1; i <= 100; i++) { ////pakeiciau 1000
 		name = "vardas" + to_string(i);
 		balance = dist(mt);
 		pk = to_string(balance) + name;
@@ -31,7 +31,7 @@ void generate_users(vector<users>& us_vec){
 }
 
 void generate_trans(vector<transaction>& tr_vec, vector<users>& us_vec) {
-		std::uniform_int_distribution<int> dist(0, 999);
+		std::uniform_int_distribution<int> dist(0, 99);//pakeiciau
 
 		int rand1 = 0;
 		int rand2 = 0;
@@ -39,13 +39,13 @@ void generate_trans(vector<transaction>& tr_vec, vector<users>& us_vec) {
 		string us1;
 		string us2;
 		string trans_id;
-	for (int i = 0; i < 10000; i++) {
+	for (int i = 0; i < 1000; i++) {//pakeiciau 10 000
 		do {
 			rand1 = dist(mt);
 			rand2 = dist(mt);
 		} while (rand1 == rand2);
 		do {
-		    std::uniform_int_distribution<int> dist(1, 1000000);
+		    std::uniform_int_distribution<int> dist(1, 1000000); 
 			s = dist(mt);
 		} while (us_vec[rand1].get_b() < s);
 		//cout << s << endl;
@@ -67,6 +67,7 @@ void generate_trans(vector<transaction>& tr_vec, vector<users>& us_vec) {
 
 
 void extrans(vector<users>& us_vec, block& blo, string prevHash, vector<transaction>& tr_vec) {
+	cout << "4" << endl;
 	users U;
 	vector<int> del;
 	for (int i = 0; i < blo.getsize(); i++) {
@@ -83,14 +84,14 @@ void extrans(vector<users>& us_vec, block& blo, string prevHash, vector<transact
 		}
 			//transakciju ivykdymas
 			if (v1 >= 0 && v2 >= 0) {
-				//cout << us_vec[v1].get_name() << " " << us_vec[v1].get_b() << endl;
+				//cout << us_vec[v1].get_name() << " " << to_string(us_vec[v1].get_b()) << endl;
 				if ((us_vec[v1].get_b() - blo.get_transaction(i).get_sum()) >= 0) {
 					us_vec[v1].set_b(us_vec[v1].get_b() - blo.get_transaction(i).get_sum());
-					//cout << us_vec[v1].get_name() << " " << us_vec[v1].get_b() << endl;
+					//cout << us_vec[v1].get_name() << " " << to_string(us_vec[v1].get_b()) << endl;
 
-					//cout << us_vec[v2].get_name() << " " << us_vec[v2].get_b() << endl;
+					//cout << us_vec[v2].get_name() << " " << to_string(us_vec[v2].get_b()) << endl;
 					us_vec[v2].set_b(us_vec[v2].get_b() + blo.get_transaction(i).get_sum());
-					//cout << us_vec[v2].get_name() << " " << us_vec[v2].get_b() << endl;
+					//cout << us_vec[v2].get_name() << " " << to_string(us_vec[v2].get_b()) << endl;
 				}
 				else
 				{
@@ -102,6 +103,7 @@ void extrans(vector<users>& us_vec, block& blo, string prevHash, vector<transact
 
 	}
 	blockChain.push_back(blo);
+	//cout << "next prevHash  " << prevHash << endl;
 	generate_block(tr_vec, prevHash, us_vec);
 }
 
@@ -123,6 +125,7 @@ bool mining(string& blockHash, vector<block>& vecOfBlocks, int firstNonce, int r
 
 
 void findBlock(vector<block>& vecOfBlocks, vector<transaction>& tr_vec, vector<users>& us_vec) {
+	cout << "3" << endl;
 	string blockHash;
 	transaction T;
 	transaction G;
@@ -152,7 +155,7 @@ void findBlock(vector<block>& vecOfBlocks, vector<transaction>& tr_vec, vector<u
 
 	} while (found == false);
 
-
+	//cout << "blockHash " << blockHash << endl; 
 	//Istrinamos idetos i bloka transakcijos
 	if (blockHash < vecOfBlocks[rand].getDifTarget()) {
 		for (int l = 0; l < vecOfBlocks[rand].getsize(); l++) {
@@ -174,6 +177,7 @@ void findBlock(vector<block>& vecOfBlocks, vector<transaction>& tr_vec, vector<u
 
 
 string markleTree(block blo) {
+	cout << "2" << endl;
 	vector<string> hashes;
 	vector<string> tmpr;
 	string hashOfTwo;
@@ -183,15 +187,18 @@ string markleTree(block blo) {
 	for (int i = 0; i < blo.getsize(); i++) {
 		hashes.push_back(hash(blo.get_transaction(i).get_id()));
 	}
-
+	//cout << "firstHashSize: " << hashes.size() << endl; 
 	while (hashes.size() != 1) {
 		for(int j = 0; j<hashes.size(); j++){
-		
+			int k = j + 1;
+			if (j % 2 == 0) {
+				hashTwo = hashes[j];
+			}
 			if (j % 2 != 0) {
 				hashOne = hashes[j];
 			}
-			if (j % 2 == 0) {
-				hashTwo = hashes[j];
+			if (k == hashes.size() && j%2 == 0 && hashes.size() %2 != 0) {
+				hashOne = hashTwo;
 			}
 			//hash'uojama po dvi transakcijas(hash'us)
 			if (hashOne.size() != 0 && hashTwo.size() != 0) {
@@ -206,7 +213,9 @@ string markleTree(block blo) {
 		while (tmpr.size() != 0) {
 			tmpr.erase(tmpr.begin());
 		}
+		cout << "hashSize: " << hashes.size() << " "; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!pridejau
 	}
+	cout << endl;  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!pridejau
 	//grazinamas root
 	if (hashes.size() == 1) {
 		return hashes[0];
@@ -226,11 +235,12 @@ bool checkTransaction(vector<transaction>& tr_vec, int rand, vector<users>& us_v
 		}
 	}
 	//hashuojama transakcijos informacija
-	checkHash = tr_vec[rand].get_user1() + to_string(tr_vec[rand].get_sum()) + tr_vec[rand].get_user2();
+	int sum = tr_vec[rand].get_sum();
+	checkHash = tr_vec[rand].get_user1() + to_string(sum) + tr_vec[rand].get_user2();
 	checkHash = hash(checkHash);
 
 	//tikrinama ar siunciama suma nevirsija turimos sumos bei ar atitinka transakcijos hash
-	if (tr_vec[rand].get_sum() < us_vec[whichUser].get_b() && checkHash != tr_vec[rand].get_id()) {
+	if (tr_vec[rand].get_sum() < us_vec[whichUser].get_b() && checkHash == tr_vec[rand].get_id()) {
 		return true;
 	}
 
@@ -244,35 +254,40 @@ bool checkTransaction(vector<transaction>& tr_vec, int rand, vector<users>& us_v
 
 
 void generate_block(vector<transaction>& tr_vec, string prevh, vector<users>& us_vec) {
-	if(tr_vec.size() >= 500){
+	cout << "1" << endl;
+	if(tr_vec.size() >= 100){//pakeiciau
 		vector<block> vecOfBlocks;
 		for(int i = 0; i<5; i++){
-		std::uniform_int_distribution<int> dist(0, tr_vec.size()-1);
-		int rand = 0; //random skaicius
-		transaction tmp; //laikinas
-		bool validation = false; 
-		vector<int> added; //kurios transakcijos jau idetos
-		added.reserve(100);
-		std::time_t t = std::time(0);
-		string v = "34912576420"; //versija
-		int n = 0; //random nonce reiksme
-		//n = dist(mt);
-		block blo(prevh, v, n, dif_targ , to_string(t));
-		//pirmos transakcijos idejimas
-		do {
-			std::uniform_int_distribution<int> dist(0, tr_vec.size() - 1);
-			rand = dist(mt);
-			validation = checkTransaction(tr_vec, rand, us_vec);
-			if (validation == true) {
-				blo.push_back(tr_vec[rand]);
-				added.push_back(rand);
-			}
-		} while (validation == false);
+			std::uniform_int_distribution<int> dist(0, tr_vec.size()-1);
+			int deleted = 0;
+			int rand = 0; //random skaicius
+			transaction tmp; //laikinas
+			bool validation = false; 
+			vector<int> added; //kurios transakcijos jau idetos
+			added.reserve(100);
+			std::time_t t = std::time(0);
+			string v = "34912576420"; //versija
+			int n = 0; //random nonce reiksme
+			//n = dist(mt);
+			block blo(prevh, v, n, dif_targ , to_string(t));
+			//pirmos transakcijos idejimas
+				do {
+					std::uniform_int_distribution<int> dist(0, tr_vec.size() - 1);
+					rand = dist(mt);
+					validation = checkTransaction(tr_vec, rand, us_vec);
+					if (validation == true) {
+						blo.push_back(tr_vec[rand]);
+						added.push_back(rand);
+					}
+					else if (deleted < 50) { //pakeiciau 50
+						deleted++;
+					}
+				} while (validation == false);
 		// Idedamos transakcijos i bloka, jei jau nebuvo ideta tokia pati
-		for (int i = 0; i < 99; i++) {
-			std::uniform_int_distribution<int> dist(0, tr_vec.size() - 1);
-			validation = false;
-			bool newTransaction = false;
+			for (int j = 0; j < 49; j++) { //pakeiciau 99
+				std::uniform_int_distribution<int> dist(0, tr_vec.size() - 1);
+				validation = false;
+				bool newTransaction = false;
 				while (newTransaction == false) {
 					int repeat = 0;
 					rand = dist(mt);
@@ -282,29 +297,34 @@ void generate_block(vector<transaction>& tr_vec, string prevh, vector<users>& us
 					}
 					if (repeat == 0) newTransaction = true;
 				}
-			validation = checkTransaction(tr_vec, rand, us_vec);
-			if (validation == true) {
-				added.push_back(rand);
-				blo.push_back(tr_vec[rand]);
+				validation = checkTransaction(tr_vec, rand, us_vec);
+				if (validation == true) {
+					added.push_back(rand);
+					blo.push_back(tr_vec[rand]);
+				}
+				else if (deleted < 50) { //pakeiciau 50
+					j--;
+					deleted++;
+				}
 			}
-		}
-	/*	for (int y = 0; y < blo.getsize(); y++) {
-			cout << blo.get_transaction(y).get_sum() << endl;
-		}
-		*/
+
 		blo.setMarkelHash(markleTree(blo));
 		vecOfBlocks.push_back(blo);
-		//findBlock(blo, tr_vec, us_vec);
 		}
 		findBlock(vecOfBlocks, tr_vec, us_vec);
 	}
-	/*else {
-		int equal = 0;
+	else {
+			int equal = 0;
 		for (int p = 0; p < blockChain.size(); p++) {
 			for (int k = 0; k < blockChain.size(); k++) {
 				if (blockChain[p].getPrevHash() == blockChain[k].getPrevHash() && p != k) equal++;
 			}
 		}
 		cout << equal;
-	}*/
+		const string lastHash = prevh;
+		//cout << lastHash << endl; 
+		/*for (int r = blockChain.size()- 1; r >= 0; r--) {
+			cout << blockChain[r].getPrevHash() << endl;
+		}*/
+	}
 }
