@@ -62,49 +62,49 @@
 Šioje versijoje sukurtos 3 klasės: 
 
 1. users
-  - name
-  - public_key
-  - balance
- Galimi veiksmai su klase:
-  - pasiimti public_key reikšmę
-  - pasiimti turimą pinigų sumą
-	 - pasiimti naudotojo vardą
-	void set_b(double b) { balance = b; }
+  - name (vartotojo vardas)
+  - public_key (viešasis raktas)
+  - balance (turima pinigų suma)
+ # Galimi veiksmai su klase:
+  	- pasiimti public_key reikšmę
+  	- pasiimti turimą pinigų sumą
+  	- pasiimti naudotojo vardą
+ 	 - nustatyti balansą
 2. transaction
   - id
   - user1 (siuntėjas)
   - user2 (gavėjas)
   - sum (siunčiama pinigų suma)
   - valid (ar transakcija validi)
- Galimi veiksmai su klase:
-   - pasiimti transakcijos id
-	  - pasiimti siuntėjo public_key
-   - pasiimti gavėjo public_key
-   - pasiimti siunčiamą sumą
-	  - nustatyti validumo reikšmę
-   - pasiimti validumo reikšmę
+ # Galimi veiksmai su klase:
+  	- pasiimti transakcijos id
+	- pasiimti siuntėjo public_key
+	- pasiimti gavėjo public_key
+   	- pasiimti siunčiamą sumą
+	- nustatyti validumo reikšmę
+  	- pasiimti validumo reikšmę
 3. block
- 	- prevBlockHash;
- 	- markelRootHash;
- 	- version;
-  - nonce;
-	 - difTarget;
-	 - timeStamp;
-	 - transactions;
-  Galimi veiksmai su klase:
+- prevBlockHash (pireš tai buvusio bloko hash)
+- markelRootHash (transakcijų hash)
+- version (versija)
+- nonce (random skaičius)
+- difTarget (sudėtingumas)
+- timeStamp (laiko žymą)
+- transactions (transakcijos)
+# Galimi veiksmai su klase:
 	 - nustatyti markelRootHash
 	 - nustatyti versiją
 	 - nustatyti nonce reikšmę
 	 - pasiimti prevBlockHash
-  - pasiimti markelRootHash 
+ 	 - pasiimti markelRootHash 
 	 - pasiimti versiją
 	 - pasiimti nonce reikšmę
 	 - pasiimti difTarget
 	 - pasiimti timeStamp
-  - pasiimti kažkurią transakciją
+ 	 - pasiimti kažkurią transakciją
 	 - pasiimti transakcijų skaičių
 	 - pašalinti transakciją
-  - padidinti nonce vienetu
+  	 - padidinti nonce vienetu
 	 - įdėti transakciją
   
   ### Įgyvendinimai versijoje
@@ -116,3 +116,4 @@
   6. Transakcijų įvykdymas
   7. Bloko pridėjimas į grandinę
   8. Ciklas grandinei kurti
+  9. Transakcijų hash 
