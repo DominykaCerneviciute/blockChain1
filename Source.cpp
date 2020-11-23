@@ -1,40 +1,40 @@
 #include "Header.h"
 
 
-void gen_random(const int len, string c) {
-	std::ofstream fd;
-	char v;
-	fd.open(c, std::ios_base::app);
-	static const char alphanum[] =
-		"0123456789"
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-		"abcdefghijklmnopqrstuvwxyz";
-	int p = len / 2;
-	srand((unsigned)time(NULL) * _getpid());
-	for (int j = 0; j < 2500; j++) 
-	{	string g;
-		string k;
-		for (int i = 1; i < len + 1; ++i)
-		{
-			if (i == p) {
-				do {
-					g += alphanum[rand() % (sizeof(alphanum) - 1)];
-					k += alphanum[rand() % (sizeof(alphanum) - 1)];
-				} while (g == k);
-			}
-			else {
-				v = alphanum[rand() % (sizeof(alphanum) - 1)];
-				g += v;
-				k += v;
-			}
-		}
-		fd << g << "\n" << k;
-		fd << "\n";
+// void gen_random(const int len, string c) {
+// 	std::ofstream fd;
+// 	char v;
+// 	fd.open(c, std::ios_base::app);
+// 	static const char alphanum[] =
+// 		"0123456789"
+// 		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+// 		"abcdefghijklmnopqrstuvwxyz";
+// 	int p = len / 2;
+// 	srand((unsigned)time(NULL) * _getpid());
+// 	for (int j = 0; j < 2500; j++) 
+// 	{	string g;
+// 		string k;
+// 		for (int i = 1; i < len + 1; ++i)
+// 		{
+// 			if (i == p) {
+// 				do {
+// 					g += alphanum[rand() % (sizeof(alphanum) - 1)];
+// 					k += alphanum[rand() % (sizeof(alphanum) - 1)];
+// 				} while (g == k);
+// 			}
+// 			else {
+// 				v = alphanum[rand() % (sizeof(alphanum) - 1)];
+// 				g += v;
+// 				k += v;
+// 			}
+// 		}
+// 		fd << g << "\n" << k;
+// 		fd << "\n";
 
-	}
-		fd.close();
+// 	}
+// 		fd.close();
 	
-}
+// }
 
 int ascii(char c) {
 	int d = 0;

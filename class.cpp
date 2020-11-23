@@ -1,4 +1,6 @@
 #include "Header.h"
+#include <bits/stdc++.h>
+
 
 using hrClock = std::chrono::high_resolution_clock;
 std::mt19937 mt(static_cast<long unsigned int>(hrClock::now().time_since_epoch().count()));
@@ -173,8 +175,34 @@ void findBlock(vector<block>& vecOfBlocks, vector<transaction>& tr_vec, vector<u
 
 }
 
-
-string markleTree(block blo) {
+bc::hash_digest create_merkle(bc::hash_list& merkle){
+	// Stop if hash list is empty or contains one element
+	if(merkle.empty())
+	return bc::null_hash;
+	else if(merkle.size()==1)
+	return merkle[0];// While there is more than 1 hash in the list, keep looping...
+	while(merkle.size()>1){// If number of hashes is odd, duplicate last hash in the list.
+	if(merkle.size()%2!=0)            
+	merkle.push_back(merkle.back());// List size is now even.
+	assert(merkle.size()%2==0);// New hash list.        
+	bc::hash_list new_merkle;// Loop through hashes 2 at a time.
+	for(auto it = merkle.begin(); it != merkle.end(); it +=2){// Join both current hashes together (concatenate).            
+	bc::data_chunk concat_data(bc::hash_size *2);
+	auto concat = bc::serializer<decltype(concat_data.begin())>(concat_data.begin());
+	            concat.write_hash(*it);            
+				concat.write_hash(*(it +1));// Hash both of the hashes.            
+				bc::hash_digest new_root = bc::bitcoin_hash(concat_data);// Add this to the new list.            
+				new_merkle.push_back(new_root);}// This is the new list.        
+				merkle = new_merkle;// DEBUG output -------------------------------------        
+				std::cout <<"Current merkle hash list:"<< std::endl;
+				for(const auto& hash: merkle)            
+				std::cout <<"  "<< bc::encode_base16(hash)<< std::endl;
+				std::cout << std::endl;// --------------------------------------------------
+				}// Finally we end up with a single item.
+				return merkle[0];
+}
+/*
+string merkleTree(block blo) {
 	vector<string> hashes;
 	vector<string> tmpr;
 	string hashOfTwo;
@@ -219,7 +247,7 @@ string markleTree(block blo) {
 	}
 	else return "0";
 }
-
+*/
 bool checkTransaction(vector<transaction>& tr_vec, int rand, vector<users>& us_vec) {
 	string user1 = tr_vec[rand].get_user1();
 	string user2 = tr_vec[rand].get_user2();
@@ -303,7 +331,22 @@ void generate_block(vector<transaction>& tr_vec, string prevh, vector<users>& us
 				}
 			}
 
-			blo.setMarkelHash(markleTree(blo));
+			///blo.setMerkelHash(merkleTree(blo));
+			bc::hash_list tx_hashes;    
+			for(int q = 0; q<blo.getsize(); q++){
+				auto b = blo.get_transaction(q);
+				int n = b.get_id().length();
+				char char_array[65];
+				string id = hash(b.get_id());
+				strcpy(char_array, id.c_str());
+				tx_hashes.push_back(bc::hash_literal(char_array));
+			}
+
+			const bc::hash_digest merkle_root =create_merkle(tx_hashes);    
+			auto root = bc::encode_base16(merkle_root);
+			blo.setMerkelHash(root);
+			// std::cout <<"Merkle Root Hash: "<< bc::encode_base16(merkle_root)<< std::endl;
+			// std::cout << "Merkle Root Hash-2: " << bc::encode_hash(merkle_root) << std::endl;
 			vecOfBlocks.push_back(blo);
 		}
 		findBlock(vecOfBlocks, tr_vec, us_vec);

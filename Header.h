@@ -5,7 +5,6 @@
 #include <cmath>
 #include <vector>
 #include <ctime>
-#include <process.h>
 #include <fstream> 
 #include <sstream>
 #include <chrono>
@@ -13,7 +12,8 @@
 #include <random>
 #include "stdlib.h"
 #include <cstdlib>
-#include <bitcoin/system.hpp>
+#include <bitcoin/bitcoin.hpp>
+
 
 using std::cout;
 using std::string;
@@ -65,7 +65,7 @@ public:
 class block {
 private: 
 	string prevBlockHash;
-	string markelRootHash;
+	string merkelRootHash;
 	string version;
 	int nonce;
 	string difTarget;
@@ -76,11 +76,11 @@ public:
 	block() {};
 	block(string pbh, string ver, int non, string dt, string ts) { prevBlockHash = pbh; version = ver; nonce = non;
 	difTarget = dt; timeStamp = ts; transactions.reserve(100); }
-	void setMarkelHash(string hash) { markelRootHash = hash; }
+	void setMerkelHash(string hash) { merkelRootHash = hash; }
 	void set_version(string v) { version = v; }
 	void set_nonce(int n) { nonce = n; }
 	string getPrevHash() { return prevBlockHash; }
-	string getMerkelHash() { return  markelRootHash; }
+	string getMerkelHash() { return  merkelRootHash; }
 	string getVersion() { return version; }
 	int getNonce() { return nonce; }
 	string getDifTarget() { return difTarget; }
@@ -92,7 +92,7 @@ public:
 	void push_back(transaction V) { transactions.push_back(V); }
 };
 
-void gen_random(const int len, string c);
+// void gen_random(const int len, string c);
 int ascii(char c);
 char hex(string sh);
 char bitwiseOr(char p, char k);
@@ -110,8 +110,9 @@ void generate_trans(vector<transaction>& tr_vec, vector<users>& us_vec);
 void extrans(vector<users>& us_vec, block& blo, string prevHash, vector<transaction>& tr_vec);
 bool mining(string& blockHash, vector<block>& vecOfBlocks, int firstNonce, int rand);
 void findBlock(vector<block>& vecOfBlocks, vector<transaction>& tr_vec, vector<users>& us_vec);
+bc::hash_digest create_merkle(bc::hash_list& merkle);
 ///void findBlock(block blo, vector<transaction>& tr_vec, vector<users>& us_vec);
-string markleTree(block blo);
+///string merkleTree(block blo);
 bool checkTransaction(vector<transaction>& tr_vec, int rand, vector<users>& us_vec);
 void generate_block(vector<transaction>& tr_vec, string prevh, vector<users>& us_vec);
 
