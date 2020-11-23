@@ -1,5 +1,5 @@
 # version v0.3
-# Šioje versijoje:
+## Šioje versijoje atlikti veiksmai:
           Buvo įdiegta papildoma biblioteka "libbitcoin-system: Bitcoin Cross-Platform C++ Development Toolkit"
           Integruota "create_merkle()" funkcija vietoj savo funkcijos, kuri apskaičiuoja merkle root hash'ą
           
