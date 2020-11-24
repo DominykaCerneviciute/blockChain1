@@ -54,7 +54,7 @@
 
 ## Supaprastintas blokų grandinės kūrimas
 ### paleidimas
-- g++ -c main.cpp Source.cpp hash.cpp class.coo
+- g++ -c main.cpp Source.cpp hash.cpp class.cpp
 - g++ -o test main.o Source.o hash.o class.o
 - test
 
